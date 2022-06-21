@@ -1,19 +1,33 @@
-const user = require('../model/user')
+const { userModel, userValidation } = require('../model/user')
 const router = require('express').Router()
+const bcrypt = require('bcryptjs')
+const saltRounds = 10
 
+//user registration
 router.post('/register', async(req, res) => {
-    const newUser = new user({
+    const { error } = userValidation.validate(req.body)
+    if(error) 
+        return res.status(400).send(error.details[0].message)
+
+    //check if username already exists in the database
+    const usernameAlreadyExists = await userModel.findOne({ username: req.body.username })
+    if(usernameAlreadyExists)
+        return res.status(400).send('Username already exists')
+    
+    //hashing password
+    const salt = await bcrypt.genSalt(saltRounds)
+    const hashedPassword = await bcrypt.hash(req.body.password, salt)
+
+    const newUser = new userModel({
         username: req.body.username,
-        password: req.body.password
+        password: hashedPassword
     })
 
     try{
         const savedUser = await newUser.save()
-        console.log(savedUser)
-        res.send(savedUser)
+        res.send({userID: savedUser._id})
     }catch(error){
         res.status(400).send(error)
-        console.log(error)
     }
 })
 
