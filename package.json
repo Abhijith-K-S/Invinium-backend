@@ -4,6 +4,7 @@
   "main": "index.js",
   "author": "Abhijith K S <abhijithks1729@gmail.com>",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",

@@ -1,11 +1,14 @@
-const { userModel, userValidation } = require('../model/user')
-const router = require('express').Router()
-const bcrypt = require('bcryptjs')
+import { registerValidation } from "../validation.js"
+import { default as userModel } from "../model/user.js"
+import { Router } from "express"
+import bcrypt from "bcrypt"
+
+const router = Router()
 const saltRounds = 10
 
 //user registration
 router.post('/register', async(req, res) => {
-    const { error } = userValidation.validate(req.body)
+    const { error } = registerValidation.validate(req.body)
     if(error) 
         return res.status(400).send(error.details[0].message)
 
@@ -31,4 +34,4 @@ router.post('/register', async(req, res) => {
     }
 })
 
-module.exports = router
+export default router
