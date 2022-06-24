@@ -1,7 +1,8 @@
-import { registerValidation } from "../validation.js"
+import { registerValidation, loginValidation } from "../validation.js"
 import { default as userModel } from "../model/user.js"
 import { Router } from "express"
 import bcrypt from "bcrypt"
+import jwt from "jsonwebtoken"
 
 const router = Router()
 const saltRounds = 10
@@ -32,6 +33,27 @@ router.post('/register', async(req, res) => {
     }catch(error){
         res.status(400).send(error)
     }
+})
+
+//user login
+router.post('/login', async(req, res) => {
+    const { error } = loginValidation.validate(req.body)
+    if(error) 
+        return res.status(400).send(error.details[0].message)
+
+    //check if username exists in the database
+    const usernameExists = await userModel.findOne({ username: req.body.username })
+    if(!usernameExists)
+        return res.status(400).send('Invalid username!')
+    
+    //user authentication
+    const checkPassword = await bcrypt.compare(req.body.password,usernameExists.password)
+    if(!checkPassword)
+        return res.status(400).send("Invalid login credentials!")
+    
+    //issue token
+    const token = jwt.sign({_id: usernameExists._id}, process.env.TOKEN_SECRET)
+    res.header("auth-token",token).send(token)
 })
 
 export default router
