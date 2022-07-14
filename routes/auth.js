@@ -10,10 +10,7 @@ const saltRounds = 10
 //user registration
 router.post("/register", async (req, res) => {
     const { error } = registerValidation.validate(req.body)
-    if (error) {
-        console.log(error.details[0].message)
-        return res.status(400).send(error.details[0].message)
-    }
+    if (error) return res.status(400).send(error.details[0].message)
 
     //check if email already exist in the database
     const emailAlreadyExists = await userModel.findOne({ email: req.body.email })
