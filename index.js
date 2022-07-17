@@ -24,7 +24,7 @@ app.use(function (req, res, next) {
 app.use(cors())
 
 app.use("/api/user", authRouter)
-app.use("/api/questions", questionRouter)
+app.use("/api/question", questionRouter)
 
 const corsOption = {
     origin: "*",
