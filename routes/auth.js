@@ -1,5 +1,6 @@
 import { registerValidation, loginValidation } from "../validation.js"
 import { default as userModel } from "../model/user.js"
+import { default as verifyToken } from "./verifyToken.js"
 import { Router } from "express"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
@@ -56,7 +57,18 @@ router.post("/login", async (req, res) => {
 
     //issue token
     const token = jwt.sign({ _id: usernameExists._id }, process.env.TOKEN_SECRET)
-    res.header("auth-token", token).send(token)
+    res.header("Authorization", token).send(token)
+})
+
+//identify user
+router.get("/whoami", verifyToken, async (req, res) => {
+    const getUser = await userModel.findOne({ _id: req.user._id })
+    res.status(200).send({
+        firstname: getUser.firstname,
+        lastname: getUser.lastname,
+        username: getUser.username,
+        email: getUser.email
+    })
 })
 
 export default router
