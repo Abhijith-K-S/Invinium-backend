@@ -1,8 +1,12 @@
 import "dotenv/config"
 import { spawn } from "child_process"
 
-export const processResultTen = async (input) => {
-    var pythonProcess = spawn("python", [process.env.ML_MODEL_PATH, input])
+export const processResult = async (input, type) => {
+    let pythonProcess
+    if (type == "ten") 
+        pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_10, input])
+    else if (type == "twelve")
+        pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_12, input])
 
     let data = ""
     for await (const chunk of pythonProcess.stdout) {
