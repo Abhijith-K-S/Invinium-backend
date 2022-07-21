@@ -2,7 +2,8 @@ import express from "express"
 import mongoose from "mongoose"
 import "dotenv/config"
 import { default as authRouter } from "./routes/auth.js"
-import { default as questionRouter } from "./routes/fetchquestion.js"
+import { default as questionRouter } from "./routes/fetchQuestion.js"
+import { default as resultRouter } from "./routes/fetchResult.js"
 import cors from "cors"
 
 const app = express()
@@ -25,6 +26,7 @@ app.use(cors())
 
 app.use("/api/user", authRouter)
 app.use("/api/question", questionRouter)
+app.use("/api/result", resultRouter)
 
 const corsOption = {
     origin: "*",
