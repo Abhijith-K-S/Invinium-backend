@@ -53,3 +53,4 @@ const makeSchema = (collectionName) => {
 export const aptitudeModel = mongoose.model("questionAptitude", makeSchema("questionaptitude"))
 export const tenModel = mongoose.model("questionTen", makeSchema("questionten"))
 export const twelveModel = mongoose.model("questionTwelve", makeSchema("questiontwelve"))
+export const btechModel = mongoose.model("questionEngineering", makeSchema("questionengineering"))
