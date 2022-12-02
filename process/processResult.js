@@ -3,10 +3,11 @@ import { spawn } from "child_process"
 
 export const processResult = async (input, type) => {
     let pythonProcess
-    if (type == "ten") 
-        pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_10, input])
+    if (type == "ten") pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_10, input])
     else if (type == "twelve")
         pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_12, input])
+    else if (type == "btech")
+        pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_BTECH, input])
 
     let data = ""
     for await (const chunk of pythonProcess.stdout) {

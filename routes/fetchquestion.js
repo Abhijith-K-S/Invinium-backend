@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { aptitudeModel, tenModel, twelveModel } from "../model/question.js"
+import { aptitudeModel, btechModel, tenModel, twelveModel } from "../model/question.js"
 
 const router = Router()
 
@@ -39,6 +39,14 @@ router.get("/twelve/:stream", async (req, res) => {
     }
 
     if (response) return res.status(200).send(response)
+    else return res.status(400).send("Error fetching data")
+})
+
+//fetch engineering questions
+router.get("/btech", async (req, res) => {
+    const questions = await btechModel.find({})
+
+    if (questions) return res.status(200).send(questions)
     else return res.status(400).send("Error fetching data")
 })
 
