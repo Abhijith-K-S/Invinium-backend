@@ -54,4 +54,30 @@ router.get("/twelve/:input", async (req, res) => {
     }
 })
 
+//fetch btech result
+router.get("/btech/:input", async (req, res) => {
+    try {
+        console.log("Processing btech request")
+        let str = await processResult(req.params.input, "btech")
+        console.log("str" + str)
+        str = str.replace("[[", "")
+        str = str.replace("]]", "")
+        str = str.split(" ")
+        let arr = []
+        for (let i = 0; i < str.length; ++i) if (str[i] != "") arr.push(parseFloat(str[i]))
+
+        let response = {
+            electronics: arr[0],
+            computer: arr[1],
+            civil: arr[2],
+            mechanical: arr[3],
+            electrical: arr[4]
+        }
+
+        return res.status(200).send(response)
+    } catch (error) {
+        return res.status(500).send("Error processing data")
+    }
+})
+
 export default router
