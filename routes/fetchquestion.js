@@ -44,9 +44,11 @@ router.get("/twelve/:stream", async (req, res) => {
 
 //fetch engineering questions
 router.get("/btech", async (req, res) => {
+    const aptitude = await aptitudeModel.find({})
     const questions = await btechModel.find({})
+    const response = aptitude.concat(questions)
 
-    if (questions) return res.status(200).send(questions)
+    if (response) return res.status(200).send(response)
     else return res.status(400).send("Error fetching data")
 })
 
