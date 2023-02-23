@@ -1,19 +1,45 @@
 import { Router } from "express"
-import { processResult } from "../process/processResult.js"
+import { processResult } from "../util/processResult.js"
+import { saveResult } from "../util/saveResult.js"
 
 const router = Router()
 
 //calculate class 10 result
-router.get("/ten/:input", async (req, res) => {
+router.put("/ten", async (req, res) => {
     try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["gender"],
+            resultMap["maths"],
+            resultMap["physics"],
+            resultMap["chemistry"],
+            resultMap["biology"],
+            resultMap["social"],
+            resultMap["verbal"],
+            resultMap["boardTen"],
+            resultMap["boardTwelve"],
+            resultMap["studyHours"],
+            resultMap["tution"],
+            resultMap["learningMethod"],
+            resultMap["socialPreference"],
+            resultMap["extracurricular"],
+            resultMap["approach"],
+            resultMap["jobPreference"],
+            resultMap["research"],
+            resultMap["logical"],
+            resultMap["quantitative"],
+            resultMap["analytical"],
+            resultMap["verbal"]
+        ]
+
         console.log("Processing class 10 request")
-        let str = await processResult(req.params.input, "ten")
+        let str = await processResult(JSON.stringify(result), "ten")
         str = str.replace("[[", "")
         str = str.replace("]]", "")
         str = str.split(" ")
         let arr = []
         for (let i = 0; i < str.length; ++i) if (str[i] != "") arr.push(parseFloat(str[i]))
-
         let response = {
             cs: arr[0],
             biology: arr[1],
@@ -21,9 +47,11 @@ router.get("/ten/:input", async (req, res) => {
             commerce: arr[3]
         }
 
+        await saveResult(req.body.username, "ten", resultMap, response)
         return res.status(200).send(response)
     } catch (error) {
-        return res.status(500).send("Error processing data")
+        console.log("error", error)
+        return res.status(500).send(error)
     }
 })
 
@@ -47,6 +75,8 @@ router.get("/twelve/:input", async (req, res) => {
             nursing: arr[5],
             management: arr[6]
         }
+
+        await saveResult(req.body.username, "ten", req.params.input, response)
 
         return res.status(200).send(response)
     } catch (error) {
@@ -73,6 +103,8 @@ router.get("/btech/:input", async (req, res) => {
             mechanical: arr[3],
             electrical: arr[4]
         }
+
+        await saveResult(req.body.username, "ten", response)
 
         return res.status(200).send(response)
     } catch (error) {
