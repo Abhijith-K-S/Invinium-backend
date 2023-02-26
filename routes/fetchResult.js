@@ -48,18 +48,44 @@ router.put("/ten", async (req, res) => {
         }
 
         await saveResult(req.body.username, "ten", resultMap, response)
+
         return res.status(200).send(response)
     } catch (error) {
-        console.log("error", error)
         return res.status(500).send(error)
     }
 })
 
 //fetch class 12 result
-router.get("/twelve/:input", async (req, res) => {
+router.put("/twelve", async (req, res) => {
     try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["gender"],
+            resultMap["boardTwelve"],
+            resultMap["stream"],
+            resultMap["maths"],
+            resultMap["phyOrAcc"],
+            resultMap["chemOrBs"],
+            resultMap["stream"],
+            resultMap["verbal"],
+            resultMap["studyHours"],
+            resultMap["tution"],
+            resultMap["entrance"],
+            resultMap["learningMethod"],
+            resultMap["socialPreference"],
+            resultMap["extracurricular"],
+            resultMap["approach"],
+            resultMap["jobPreference"],
+            resultMap["research"],
+            resultMap["logical"],
+            resultMap["quantitative"],
+            resultMap["analytical"],
+            resultMap["verbal"]
+        ]
+
         console.log("Processing class 12 request")
-        let str = await processResult(req.params.input, "twelve")
+        let str = await processResult(JSON.stringify(result), "twelve")
         str = str.replace("[[", "")
         str = str.replace("]]", "")
         str = str.split(" ")
@@ -76,7 +102,7 @@ router.get("/twelve/:input", async (req, res) => {
             management: arr[6]
         }
 
-        await saveResult(req.body.username, "ten", req.params.input, response)
+        await saveResult(req.body.username, "twelve", resultMap, response)
 
         return res.status(200).send(response)
     } catch (error) {
