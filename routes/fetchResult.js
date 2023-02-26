@@ -111,10 +111,45 @@ router.put("/twelve", async (req, res) => {
 })
 
 //fetch btech result
-router.get("/btech/:input", async (req, res) => {
+router.put("/btech", async (req, res) => {
     try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["gender"],
+            resultMap["stream"],
+            resultMap["maths"],
+            resultMap["physics"],
+            resultMap["chemistry"],
+            resultMap["other"],
+            resultMap["favouriteSubject"],
+            resultMap["likedTopicMath"],
+            resultMap["likedTopicPhy"],
+            resultMap["exhibition"],
+            resultMap["figure"],
+            resultMap["programmingKnowledge"],
+            resultMap["studyHours"],
+            resultMap["softwareJob"],
+            resultMap["IES"],
+            resultMap["work"],
+            resultMap["preferredSubject"],
+            resultMap["PSU"],
+            resultMap["learningMethod"],
+            resultMap["socialPreference"],
+            resultMap["reason"],
+            resultMap["revision"],
+            resultMap["difficulty"],
+            resultMap["bookRefer"],
+            resultMap["extracurricular"],
+            resultMap["approach"],
+            resultMap["logical"],
+            resultMap["quantitative"],
+            resultMap["analytical"],
+            resultMap["verbal"]
+        ]
+
         console.log("Processing btech request")
-        let str = await processResult(req.params.input, "btech")
+        let str = await processResult(JSON.stringify(result), "btech")
         console.log("str" + str)
         str = str.replace("[[", "")
         str = str.replace("]]", "")
@@ -130,7 +165,7 @@ router.get("/btech/:input", async (req, res) => {
             electrical: arr[4]
         }
 
-        await saveResult(req.body.username, "ten", response)
+        await saveResult(req.body.username, "btech", resultMap, response)
 
         return res.status(200).send(response)
     } catch (error) {
