@@ -8,6 +8,8 @@ export const processResult = async (input, type) => {
         pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_12, input])
     else if (type == "btech")
         pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_BTECH, input])
+    else if (type == "graduate")
+        pythonProcess = spawn("python", [process.env.ML_MODEL_PATH_GRADUATE, input])
 
     let data = ""
     for await (const chunk of pythonProcess.stdout) {

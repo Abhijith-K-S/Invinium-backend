@@ -173,4 +173,75 @@ router.put("/btech", async (req, res) => {
     }
 })
 
+//fetch graduate result
+router.put("/graduate", async (req, res) => {
+    try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["os"],
+            resultMap["algorithms"],
+            resultMap["programming"],
+            resultMap["software"],
+            resultMap["networks"],
+            resultMap["electronics"],
+            resultMap["architecture"],
+            resultMap["maths"],
+            resultMap["verbal"],
+            resultMap["logical"],
+            resultMap["hours"],
+            resultMap["hackathons"],
+            resultMap["codingSkill"],
+            resultMap["publicSpeaking"],
+            resultMap["workLongTime"],
+            resultMap["selfLearning"],
+            resultMap["extraCourses"],
+            resultMap["certifications"],
+            resultMap["workshops"],
+            resultMap["talentTest"],
+            resultMap["languageSkills"],
+            resultMap["memory"],
+            resultMap["subject"],
+            resultMap["career"],
+            resultMap["jobOrStudies"],
+            resultMap["company"],
+            resultMap["seniors"],
+            resultMap["games"],
+            resultMap["behaviour"],
+            resultMap["managementOrTechnical"],
+            resultMap["salaryOrWork"],
+            resultMap["hardOrSmart"],
+            resultMap["teams"],
+            resultMap["introvert"]
+        ]
+
+        console.log("Processing graduate request")
+        let str = await processResult(JSON.stringify(result), "graduate")
+        console.log("str" + str)
+        str = str.replace("[[", "")
+        str = str.replace("]]", "")
+        str = str.split(" ")
+        let arr = []
+        for (let i = 0; i < str.length; ++i) if (str[i] != "") arr.push(parseFloat(str[i]))
+
+        let response = {
+            Analyst: arr[0],
+            "Data Engineer": arr[1],
+            "System Engineer": arr[2],
+            "Security Engineer": arr[3],
+            Developer: arr[4],
+            "UI/UX Engineer": arr[5],
+            "Quality Assurance Engineer": arr[6],
+            "Project Manager": arr[7],
+            "Technical Support": arr[8]
+        }
+
+        await saveResult(req.body.username, "graduate", resultMap, response)
+
+        return res.status(200).send(response)
+    } catch (error) {
+        return res.status(500).send("Error processing data")
+    }
+})
+
 export default router
