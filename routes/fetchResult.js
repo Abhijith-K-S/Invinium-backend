@@ -1,19 +1,45 @@
 import { Router } from "express"
-import { processResult } from "../process/processResult.js"
+import { processResult } from "../util/processResult.js"
+import { saveResult } from "../util/saveResult.js"
 
 const router = Router()
 
 //calculate class 10 result
-router.get("/ten/:input", async (req, res) => {
+router.put("/ten", async (req, res) => {
     try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["gender"],
+            resultMap["maths"],
+            resultMap["physics"],
+            resultMap["chemistry"],
+            resultMap["biology"],
+            resultMap["social"],
+            resultMap["verbal"],
+            resultMap["boardTen"],
+            resultMap["boardTwelve"],
+            resultMap["studyHours"],
+            resultMap["tution"],
+            resultMap["learningMethod"],
+            resultMap["socialPreference"],
+            resultMap["extracurricular"],
+            resultMap["approach"],
+            resultMap["jobPreference"],
+            resultMap["research"],
+            resultMap["logical"],
+            resultMap["quantitative"],
+            resultMap["analytical"],
+            resultMap["verbal"]
+        ]
+
         console.log("Processing class 10 request")
-        let str = await processResult(req.params.input, "ten")
+        let str = await processResult(JSON.stringify(result), "ten")
         str = str.replace("[[", "")
         str = str.replace("]]", "")
         str = str.split(" ")
         let arr = []
         for (let i = 0; i < str.length; ++i) if (str[i] != "") arr.push(parseFloat(str[i]))
-
         let response = {
             cs: arr[0],
             biology: arr[1],
@@ -21,17 +47,45 @@ router.get("/ten/:input", async (req, res) => {
             commerce: arr[3]
         }
 
+        await saveResult(req.body.username, "ten", resultMap, response)
+
         return res.status(200).send(response)
     } catch (error) {
-        return res.status(500).send("Error processing data")
+        return res.status(500).send(error)
     }
 })
 
 //fetch class 12 result
-router.get("/twelve/:input", async (req, res) => {
+router.put("/twelve", async (req, res) => {
     try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["gender"],
+            resultMap["boardTwelve"],
+            resultMap["stream"],
+            resultMap["maths"],
+            resultMap["phyOrAcc"],
+            resultMap["chemOrBs"],
+            resultMap["stream"],
+            resultMap["verbal"],
+            resultMap["studyHours"],
+            resultMap["tution"],
+            resultMap["entrance"],
+            resultMap["learningMethod"],
+            resultMap["socialPreference"],
+            resultMap["extracurricular"],
+            resultMap["approach"],
+            resultMap["jobPreference"],
+            resultMap["research"],
+            resultMap["logical"],
+            resultMap["quantitative"],
+            resultMap["analytical"],
+            resultMap["verbal"]
+        ]
+
         console.log("Processing class 12 request")
-        let str = await processResult(req.params.input, "twelve")
+        let str = await processResult(JSON.stringify(result), "twelve")
         str = str.replace("[[", "")
         str = str.replace("]]", "")
         str = str.split(" ")
@@ -48,6 +102,8 @@ router.get("/twelve/:input", async (req, res) => {
             management: arr[6]
         }
 
+        await saveResult(req.body.username, "twelve", resultMap, response)
+
         return res.status(200).send(response)
     } catch (error) {
         return res.status(500).send("Error processing data")
@@ -55,10 +111,45 @@ router.get("/twelve/:input", async (req, res) => {
 })
 
 //fetch btech result
-router.get("/btech/:input", async (req, res) => {
+router.put("/btech", async (req, res) => {
     try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["gender"],
+            resultMap["stream"],
+            resultMap["maths"],
+            resultMap["physics"],
+            resultMap["chemistry"],
+            resultMap["other"],
+            resultMap["favouriteSubject"],
+            resultMap["likedTopicMath"],
+            resultMap["likedTopicPhy"],
+            resultMap["exhibition"],
+            resultMap["figure"],
+            resultMap["programmingKnowledge"],
+            resultMap["studyHours"],
+            resultMap["softwareJob"],
+            resultMap["IES"],
+            resultMap["work"],
+            resultMap["preferredSubject"],
+            resultMap["PSU"],
+            resultMap["learningMethod"],
+            resultMap["socialPreference"],
+            resultMap["reason"],
+            resultMap["revision"],
+            resultMap["difficulty"],
+            resultMap["bookRefer"],
+            resultMap["extracurricular"],
+            resultMap["approach"],
+            resultMap["logical"],
+            resultMap["quantitative"],
+            resultMap["analytical"],
+            resultMap["verbal"]
+        ]
+
         console.log("Processing btech request")
-        let str = await processResult(req.params.input, "btech")
+        let str = await processResult(JSON.stringify(result), "btech")
         console.log("str" + str)
         str = str.replace("[[", "")
         str = str.replace("]]", "")
@@ -73,6 +164,79 @@ router.get("/btech/:input", async (req, res) => {
             mechanical: arr[3],
             electrical: arr[4]
         }
+
+        await saveResult(req.body.username, "btech", resultMap, response)
+
+        return res.status(200).send(response)
+    } catch (error) {
+        return res.status(500).send("Error processing data")
+    }
+})
+
+//fetch graduate result
+router.put("/graduate", async (req, res) => {
+    try {
+        const resultMap = req.body.resultMap
+
+        const result = [
+            resultMap["os"],
+            resultMap["algorithms"],
+            resultMap["programming"],
+            resultMap["software"],
+            resultMap["networks"],
+            resultMap["electronics"],
+            resultMap["architecture"],
+            resultMap["maths"],
+            resultMap["verbal"],
+            resultMap["logical"],
+            resultMap["hours"],
+            resultMap["hackathons"],
+            resultMap["codingSkill"],
+            resultMap["publicSpeaking"],
+            resultMap["workLongTime"],
+            resultMap["selfLearning"],
+            resultMap["extraCourses"],
+            resultMap["certifications"],
+            resultMap["workshops"],
+            resultMap["talentTest"],
+            resultMap["languageSkills"],
+            resultMap["memory"],
+            resultMap["subject"],
+            resultMap["career"],
+            resultMap["jobOrStudies"],
+            resultMap["company"],
+            resultMap["seniors"],
+            resultMap["games"],
+            resultMap["behaviour"],
+            resultMap["managementOrTechnical"],
+            resultMap["salaryOrWork"],
+            resultMap["hardOrSmart"],
+            resultMap["teams"],
+            resultMap["introvert"]
+        ]
+
+        console.log("Processing graduate request")
+        let str = await processResult(JSON.stringify(result), "graduate")
+        console.log("str" + str)
+        str = str.replace("[[", "")
+        str = str.replace("]]", "")
+        str = str.split(" ")
+        let arr = []
+        for (let i = 0; i < str.length; ++i) if (str[i] != "") arr.push(parseFloat(str[i]))
+
+        let response = {
+            Analyst: arr[0],
+            "Data Engineer": arr[1],
+            "System Engineer": arr[2],
+            "Security Engineer": arr[3],
+            Developer: arr[4],
+            "UI/UX Engineer": arr[5],
+            "Quality Assurance Engineer": arr[6],
+            "Project Manager": arr[7],
+            "Technical Support": arr[8]
+        }
+
+        await saveResult(req.body.username, "graduate", resultMap, response)
 
         return res.status(200).send(response)
     } catch (error) {
