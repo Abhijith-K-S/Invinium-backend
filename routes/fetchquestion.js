@@ -60,7 +60,9 @@ router.get("/btech", async (req, res) => {
 
 //fetch graduate questions
 router.get("/graduate", async (req, res) => {
-    const aptitude = await aptitudeModel.find({})
+    const aptitude = await aptitudeModel.find({
+        $or: [{ category: "logical" }, { category: "verbal" }]
+    })
     const maths = await twelveModel.find({ category: "maths" })
     const questions = await graduateModel.find({})
     const response = aptitude.concat(maths, questions)
