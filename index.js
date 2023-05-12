@@ -4,6 +4,7 @@ import "dotenv/config"
 import { default as authRouter } from "./routes/auth.js"
 import { default as questionRouter } from "./routes/fetchquestion.js"
 import { default as resultRouter } from "./routes/fetchResult.js"
+import { default as jobsRouter } from "./routes/fetchJobs.js"
 import cors from "cors"
 
 const app = express()
@@ -26,6 +27,7 @@ app.use(cors())
 app.use("/api/user", authRouter)
 app.use("/api/question", questionRouter)
 app.use("/api/result", resultRouter)
+app.use("/api/jobs", jobsRouter)
 // app.use("/", (req, res) => res.send("Welcome to Invinium"))
 
 const corsOption = {
