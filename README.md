@@ -28,4 +28,9 @@
 
 - `PUT /api/result/graduate` with { username, resultMap: { os, algorithms, programming, software, networks, electronics, architecture, maths, verbal, logicl, hours, hackathons, codingSkill, publicSpeaking, workLongTime, selfLearning, extraCourses, certifications, workshops, talentTest, languageSkills, memory, subject, career, jobOrStudies, company, seniors, games, behaviour, managementOrTechnical, salaryOrWork, hardOrSmart, teams, introvert } } to fetch graduate result
 
+## Jobs
+
+- `GET /api/jobs?keyword=<prediction-from-graduate-model>` to fetch job info
+
+
 
